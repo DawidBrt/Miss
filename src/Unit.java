@@ -1,28 +1,20 @@
 public class Unit {
-    private int x;
-    private int y;
+    private Position position = new Position(0,0);
     private boolean sick;
 
     public Unit(int x, int y, boolean sick){
-        this.x = x;
-        this.y = y;
+        this.position.setX(x);
+        this.position.setY(y);
         this.sick = sick;
     }
 
-    public int getX() {
-        return x;
+    public Position getPosition() {
+    	return this.position;
     }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    
+    public void setPosition(Position position) {
+    	this.position.setX(position.getX());
+    	this.position.setY(position.getY());
     }
 
     public boolean isSick() {
