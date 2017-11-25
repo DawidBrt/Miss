@@ -3,63 +3,71 @@ import java.util.List;
 import java.util.Random;
 
 public class UnitMove {
-	private Maker maker;
-	private int width;
-	private int height;
 
-	public UnitMove(Maker maker, int width, int height) {
-		this.maker = maker;
-		this.width = width;
-		this.height = height;
+	private Unit[][] unitBoard;
+	private List<Unit> unitList;
+
+	public UnitMove(Maker maker) {
+		this.unitBoard = maker.getUnitBoard();
+		this.unitList = maker.getUnitList();
+	}
+
+	// aktualizacja planszy
+	// poprzednia pozycja -> null
+	public void updateBoard(int previousX, int previousY, Unit unit) {
+		unitBoard[previousY][previousX] = null;
+		unitBoard[unit.getPosition().getY()][unit.getPosition().getX()] = unit;
 	}
 
 	// znalezienie mozliwych ruchow danej jednostki
 	public List<Position> checkUnitAvailableMoves(Unit unit) {
-		boolean[][] blankCells = maker.getIsCellBlank();
 		int unitX = unit.getPosition().getX();
 		int unitY = unit.getPosition().getY();
-		ArrayList<Position> unitAvailableMoves = new ArrayList<Position>();
 
+		ArrayList<Position> unitAvailableMoves = new ArrayList<Position>();
 		// aktualna pozycja (bezruch)
 		unitAvailableMoves.add(new Position(unitX, unitY));
 
-		// ruch gora
 		if (unitY - 1 >= 0) {
-			if (blankCells[unitY - 1][unitX]) {
+			if (unitBoard[unitY - 1][unitX] == null) {
 				unitAvailableMoves.add(new Position(unitX, unitY - 1));
 			}
 		}
 		// ruch prawo
-		if (unitX + 1 < width) {
-			if (blankCells[unitY][unitX + 1]) {
+		if (unitX + 1 < unitBoard[0].length) {
+			if (unitBoard[unitY][unitX + 1] == null) {
 				unitAvailableMoves.add(new Position(unitX + 1, unitY));
 			}
 		}
 		// ruch dol
-		if (unitY + 1 < height) {
-			if (blankCells[unitY + 1][unitX]) {
+		if (unitY + 1 < unitBoard.length) {
+			if (unitBoard[unitY + 1][unitX] == null) {
 				unitAvailableMoves.add(new Position(unitX, unitY + 1));
 			}
 		}
 
 		// ruch lewo
 		if (unitX - 1 >= 0) {
-			if (blankCells[unitY][unitX - 1]) {
+			if (unitBoard[unitY][unitX - 1] == null) {
 				unitAvailableMoves.add(new Position(unitX - 1, unitY));
 			}
 		}
-		return unitAvailableMoves;
 
+		return unitAvailableMoves;
 	}
 
-	public void makeMove(List<Unit> units) {
+	public void makeMove() {
 		Random generator = new Random();
-		for (int i = 0; i < units.size(); i++) {
-			List<Position> availableMoves = checkUnitAvailableMoves(units.get(i));
+		for (int i = 0; i < unitList.size(); i++) {
+			List<Position> availableMoves = checkUnitAvailableMoves(unitList.get(i));
 			// losujemy ruch z dostepnych opcji i ustawiamy nowe wspolrzedne
 			int option = generator.nextInt(availableMoves.size());
-			units.get(i).getPosition().setX(availableMoves.get(option).getX());
-			units.get(i).getPosition().setY(availableMoves.get(option).getY());
+			int previousX = unitList.get(i).getPosition().getX();
+			int previousY = unitList.get(i).getPosition().getY();
+			unitList.get(i).getPosition().setX(availableMoves.get(option).getX());
+			unitList.get(i).getPosition().setY(availableMoves.get(option).getY());
+			// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
+			updateBoard(previousX, previousY, unitList.get(i));
 		}
 	}
 }
