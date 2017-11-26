@@ -7,9 +7,9 @@ public class Drawer extends JPanel {
 	private int size;
 	private List<Unit> units;
 
-	public Drawer(Maker maker, int width, int height, int size) {
+	public Drawer(TheUnits theUnits, int width, int height, int size) {
 		this.size = size;
-		this.units = maker.getUnitList();
+		this.units = theUnits.getUnitList();
 		setPreferredSize(new Dimension(width * size, height * size));
 	}
 
