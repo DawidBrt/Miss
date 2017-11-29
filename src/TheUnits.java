@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 public class TheUnits {
 
 	private Unit[][] unitBoard;
@@ -139,15 +140,20 @@ public class TheUnits {
 		int x, y;
 		Unit[][] nextMoveBoard = unitBoard.clone();
 		for (int i = 0; i < unitList.size(); i++) {
-			x = unitList.get(i).getPosition().getX();
-			y = unitList.get(i).getPosition().getY();
-			nextMoveBoard[y][x].setPosition(new Position(x, y));
-			infection = generator.nextInt(100);
+		    if(unitList.get(i).isSick()){
+		        //jest chory bardziej chory (na chwile obecna) byc nie moze
+            }
+            else {
+                x = unitList.get(i).getPosition().getX();
+                y = unitList.get(i).getPosition().getY();
+                nextMoveBoard[y][x].setPosition(new Position(x, y));
+                infection = generator.nextInt(100);
 
-			sickNeighbours = countNeighboursInfected(x,y);
-			if (infection < (toInfect*sickNeighbours) - 1) {
-				nextMoveBoard[y][x].setSick(true);
-			}
+                sickNeighbours = countNeighboursInfected(x, y);
+                if (infection < (toInfect * (Math.pow(2, sickNeighbours) - 1) - 1)) {
+                    nextMoveBoard[y][x].setSick(true);
+                }
+            }
 		}
 		this.unitBoard = nextMoveBoard.clone();
 	}
