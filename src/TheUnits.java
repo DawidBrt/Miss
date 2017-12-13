@@ -9,7 +9,7 @@ public class TheUnits {
 	private List<Unit> unitList = new ArrayList<>();
 	private int toInfect;
 
-	public TheUnits(int width, int height, int rand, int sick, int toInfect) {
+	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect) {
 		this.toInfect = toInfect;
 
 		Random generator = new Random();
@@ -19,14 +19,22 @@ public class TheUnits {
 		Unit[][] unitBoard = new Unit[height][width];
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				exist = generator.nextInt(100);
+				exist = generator.nextInt(101);
 				if (exist < (rand - 1)) {
 					Unit unit;
-					sicked = generator.nextInt(100);
-					if (sicked > (sick - 1)) {
-						unit = new Unit(j, i, false);
-					} else {
-						unit = new Unit(j, i, true);
+					sicked = generator.nextInt(101);
+					if (sicked <= (sick)) {
+						int dos = generator.nextInt(7); // dos = day of sick
+						unit = new Unit(j, i, dos+5);
+					}
+					else if (sicked<=(sick+infected)) {
+						int doi = generator.nextInt(3); // doi = day of infected
+						unit = new Unit(j, i, doi+2);
+					}
+					else if(sicked>=(100-immune))
+						unit = new Unit(j, i, 13);
+					else{
+						unit = new Unit(j, i, 1);
 					}
 					unitList.add(unit);
 					unitBoard[i][j] = unit;
@@ -123,7 +131,7 @@ public class TheUnits {
 					// nie liczymy samej siebie
 					if (!(x == col && y == row)) {
 						// jezeli sasiad zarazony, zwiekszamy licznik
-						if (unitBoard[y][x] != null && unitBoard[y][x].isSick()) {
+						if (unitBoard[y][x] != null && unitBoard[y][x].isInfected()) {
 							infected++;
 						}
 					}
@@ -140,10 +148,7 @@ public class TheUnits {
 		int x, y;
 		Unit[][] nextMoveBoard = unitBoard.clone();
 		for (int i = 0; i < unitList.size(); i++) {
-		    if(unitList.get(i).isSick()){
-		        //jest chory bardziej chory (na chwile obecna) byc nie moze
-            }
-            else {
+		    if(unitList.get(i).getSick()==1) {
                 x = unitList.get(i).getPosition().getX();
                 y = unitList.get(i).getPosition().getY();
                 nextMoveBoard[y][x].setPosition(new Position(x, y));
@@ -151,9 +156,12 @@ public class TheUnits {
 
                 sickNeighbours = countNeighboursInfected(x, y);
                 if (infection < (toInfect * (Math.pow(2, sickNeighbours) - 1) - 1)) {
-                    nextMoveBoard[y][x].setSick(true);
+                    nextMoveBoard[y][x].setSick(2);
                 }
             }
+            else{
+				unitList.get(i).nextDay();
+			}
 		}
 		this.unitBoard = nextMoveBoard.clone();
 	}
@@ -165,7 +173,7 @@ public class TheUnits {
 	public int countInfected(){
 		int counter = 0;
 		for(int i=0;i<unitList.size();i++){
-			if(unitList.get(i).isSick()){
+			if(unitList.get(i).isInfected()){
 				counter ++;
 			}
 		}

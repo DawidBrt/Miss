@@ -1,12 +1,14 @@
 public class Test {
 	public static void main(String[] args) {
-		int size = 9;
-		int width = 100;
-		int height = 50;
+		int size = 7;
+		int width = 200;
+		int height = 100;
 		int exist = 40;
 		int sick = 10;
+		int infected = 3; //infekujacy jeszcze nie chorzy
+		int immune = 5; //odporni na chorobe
 		int toInfect = 5; //szansa na zainfekowanie w %
-		TheUnits theUnits = new TheUnits(width, height, exist, sick, toInfect);
+		TheUnits theUnits = new TheUnits(width, height, exist, sick, infected, immune, toInfect);
 		Drawer drawer = new Drawer(theUnits, width, height, size);
 		MyFrame myFrame = new MyFrame(drawer);
 		while (true) {
