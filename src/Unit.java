@@ -1,21 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Unit {
     private Position position = new Position(0,0);
-
+    private List<Position> pointsOfInterest = new ArrayList<>();
     private int sick;
     // 1 - zdrowy, 2-4 - zakaza(bez objawow), 5-12 - chory,13 - "niesmiertelny" przynajmniej na grype
 
 
-    public Unit(int x, int y, int sick){
+    public Unit(int x, int y, int sick, List<PointOfInterest> pointOfInterests){
         this.position.setX(x);
         this.position.setY(y);
         if(sick<1 || sick>13){
             sick = 1;
         }
         this.sick = sick;
+        for(int i=0;i<pointOfInterests.size();i++){
+            pointsOfInterest.add(pointOfInterests.get(i).poi());
+        }
     }
 
     public Position getPosition() {
-    	return this.position;
+    	return position;
     }
     
     public void setPosition(Position position) {
@@ -45,5 +51,9 @@ public class Unit {
     public void nextDay(){
         if(sick>1 && sick<13)
             sick+=1;
+    }
+
+    public Position getPoI(){
+        return pointsOfInterest.get(0);
     }
 }

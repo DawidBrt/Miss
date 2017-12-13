@@ -2,39 +2,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 public class TheUnits {
 
 	private Unit[][] unitBoard;
 	private List<Unit> unitList = new ArrayList<>();
 	private int toInfect;
+	private int Time = 1;
 
-	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect) {
+	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect, ThePoI thePoI) {
 		this.toInfect = toInfect;
 
 		Random generator = new Random();
 		int exist;
 		int sicked;
-
 		Unit[][] unitBoard = new Unit[height][width];
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				exist = generator.nextInt(101);
 				if (exist < (rand - 1)) {
+					List<PointOfInterest> PoI = new ArrayList<>();
+					for(int k = 0; k<3;k++) {
+						int a = generator.nextInt(thePoI.getPoIList().size());
+						PoI.add(thePoI.getPoIList().get(a));
+					}
 					Unit unit;
 					sicked = generator.nextInt(101);
 					if (sicked <= (sick)) {
 						int dos = generator.nextInt(7); // dos = day of sick
-						unit = new Unit(j, i, dos+5);
+						unit = new Unit(j, i, dos+5, PoI);
 					}
 					else if (sicked<=(sick+infected)) {
 						int doi = generator.nextInt(3); // doi = day of infected
-						unit = new Unit(j, i, doi+2);
+						unit = new Unit(j, i, doi+2, PoI);
 					}
 					else if(sicked>=(100-immune))
-						unit = new Unit(j, i, 13);
+						unit = new Unit(j, i, 13, PoI);
 					else{
-						unit = new Unit(j, i, 1);
+						unit = new Unit(j, i, 1, PoI);
 					}
 					unitList.add(unit);
 					unitBoard[i][j] = unit;
@@ -42,6 +46,14 @@ public class TheUnits {
 			}
 		}
 		this.unitBoard = unitBoard;
+	}
+
+	public int getTime() {
+		return Time;
+	}
+
+	public void setTime(){
+		Time+=1;
 	}
 
 	public Unit[][] getUnitBoard() {
@@ -67,38 +79,114 @@ public class TheUnits {
 		unitBoard[unit.getPosition().getY()][unit.getPosition().getX()] = unit;
 	}
 
-	// znalezienie mozliwych ruchow danej jednostki
-	public List<Position> checkUnitAvailableMoves(Unit unit) {
-		int unitX = unit.getPosition().getX();
-		int unitY = unit.getPosition().getY();
 
-		ArrayList<Position> unitAvailableMoves = new ArrayList<Position>();
-		// aktualna pozycja (bezruch)
-		unitAvailableMoves.add(new Position(unitX, unitY));
 
-		if (unitY - 1 >= 0) {
-			if (unitBoard[unitY - 1][unitX] == null) {
-				unitAvailableMoves.add(new Position(unitX, unitY - 1));
-			}
-		}
-		// ruch prawo
-		if (unitX + 1 < unitBoard[0].length) {
-			if (unitBoard[unitY][unitX + 1] == null) {
-				unitAvailableMoves.add(new Position(unitX + 1, unitY));
-			}
-		}
-		// ruch dol
-		if (unitY + 1 < unitBoard.length) {
-			if (unitBoard[unitY + 1][unitX] == null) {
-				unitAvailableMoves.add(new Position(unitX, unitY + 1));
-			}
-		}
 
-		// ruch lewo
+	public ArrayList<Position> checkLeftMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitX - 1 >= 0) {
 			if (unitBoard[unitY][unitX - 1] == null) {
 				unitAvailableMoves.add(new Position(unitX - 1, unitY));
 			}
+			if (unitY - 1 >= 0) {
+				if (unitBoard[unitY - 1][unitX-1] == null) {
+					unitAvailableMoves.add(new Position(unitX-1, unitY - 1));
+				}
+			}
+			if (unitY + 1 < unitBoard.length) {
+				if (unitBoard[unitY + 1][unitX-1] == null) {
+					unitAvailableMoves.add(new Position(unitX-1, unitY + 1));
+				}
+			}
+		}
+		return unitAvailableMoves;
+
+	}
+	public ArrayList<Position> checkRightMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+		if (unitX + 1 < unitBoard[0].length) {
+			if (unitBoard[unitY][unitX + 1] == null) {
+				unitAvailableMoves.add(new Position(unitX + 1, unitY));
+			}
+			if (unitY - 1 >= 0) {
+				if (unitBoard[unitY - 1][unitX+1] == null) {
+					unitAvailableMoves.add(new Position(unitX+1, unitY - 1));
+				}
+			}
+			if (unitY + 1 < unitBoard.length) {
+				if (unitBoard[unitY + 1][unitX+1] == null) {
+					unitAvailableMoves.add(new Position(unitX+1, unitY + 1));
+				}
+			}
+		}
+		return unitAvailableMoves;
+	}
+	public ArrayList<Position> checkUpMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+		if (unitY - 1 >= 0) {
+			if (unitBoard[unitY - 1][unitX] == null) {
+				unitAvailableMoves.add(new Position(unitX, unitY - 1));
+			}
+			if (unitX + 1 < unitBoard[0].length) {
+				if (unitBoard[unitY-1][unitX + 1] == null) {
+					unitAvailableMoves.add(new Position(unitX + 1, unitY-1));
+				}
+			}
+			if (unitX - 1 >= 0) {
+				if (unitBoard[unitY-1][unitX - 1] == null) {
+					unitAvailableMoves.add(new Position(unitX - 1, unitY-1));
+				}
+			}
+		}
+		return unitAvailableMoves;
+	}
+	public ArrayList<Position> checkDownMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+		if (unitY + 1 < unitBoard.length) {
+			if (unitBoard[unitY + 1][unitX] == null) {
+				unitAvailableMoves.add(new Position(unitX, unitY + 1));
+			}
+			if (unitX + 1 < unitBoard[0].length) {
+				if (unitBoard[unitY+1][unitX + 1] == null) {
+					unitAvailableMoves.add(new Position(unitX + 1, unitY+1));
+				}
+			}
+			if (unitX - 1 >= 0) {
+				if (unitBoard[unitY+1][unitX - 1] == null) {
+					unitAvailableMoves.add(new Position(unitX - 1, unitY+1));
+				}
+			}
+		}
+		return unitAvailableMoves;
+	}
+
+
+	// znalezienie mozliwych ruchow danej jednostki
+	public List<Position> checkUnitAvailableMoves(Unit unit, Position PoI) {
+		int PoIX = PoI.getX();
+		int PoIY = PoI.getY();
+		int unitX = unit.getPosition().getX();
+		int unitY = unit.getPosition().getY();
+
+		ArrayList<Position> unitAvailableMoves = new ArrayList<Position>();
+		// ruch gora
+		if (unitX > PoIX) {
+			checkUpMove(unitAvailableMoves,unitX,unitY);
+		}
+
+		// ruch dol
+		else if (unitX < PoIX) {
+			checkDownMove(unitAvailableMoves,unitX,unitY);
+		}
+
+		// ruch prawo
+		if (unitY < PoIY) {
+			checkRightMove(unitAvailableMoves,unitX,unitY);
+		}
+
+		// ruch lewo
+		if (unitY > PoIY) {
+			checkLeftMove(unitAvailableMoves,unitX,unitY);
+		}
+
+		if(unitAvailableMoves.size()==0){
+			unitAvailableMoves.add(new Position(unitX,unitY));
 		}
 
 		return unitAvailableMoves;
@@ -107,7 +195,7 @@ public class TheUnits {
 	public void makeMove() {
 		Random generator = new Random();
 		for (int i = 0; i < unitList.size(); i++) {
-			List<Position> availableMoves = checkUnitAvailableMoves(unitList.get(i));
+			List<Position> availableMoves = checkUnitAvailableMoves(unitList.get(i),unitList.get(i).getPoI());
 			// losujemy ruch z dostepnych opcji i ustawiamy nowe wspolrzedne
 			int option = generator.nextInt(availableMoves.size());
 			int previousX = unitList.get(i).getPosition().getX();
@@ -159,9 +247,10 @@ public class TheUnits {
                     nextMoveBoard[y][x].setSick(2);
                 }
             }
-            else{
+            else if(getTime()%5==0){
 				unitList.get(i).nextDay();
 			}
+			setTime();
 		}
 		this.unitBoard = nextMoveBoard.clone();
 	}
