@@ -2,10 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Unit {
+    // pozycja osobnika
     private Position position = new Position(0,0);
+
+    // lista PoI osobnika (może być różna dla różnych osobników)
     private List<Position> pointsOfInterest = new ArrayList<>();
-    private int sick;
+
     // 1 - zdrowy, 2-4 - zakaza(bez objawow), 5-12 - chory,13 - "niesmiertelny" przynajmniej na grype
+    private int sick;
 
 
     public Unit(int x, int y, int sick, List<PointOfInterest> pointOfInterests){
@@ -16,7 +20,7 @@ public class Unit {
         }
         this.sick = sick;
         for(int i=0;i<pointOfInterests.size();i++){
-            pointsOfInterest.add(pointOfInterests.get(i).poi());
+            pointsOfInterest.add(pointOfInterests.get(i).poiPosition());
         }
     }
 
@@ -29,7 +33,7 @@ public class Unit {
     	this.position.setY(position.getY());
     }
 
-    public int getSick() {
+    public int getSickLevel() {
         return sick;
     }
 
@@ -48,7 +52,16 @@ public class Unit {
             return false;
         }
     }
-    public void nextDay(){
+    public boolean isHealthy(){
+        return (sick == 1);
+    }
+    public boolean isCarrier(){
+        return (sick >= 2 && sick <=4);
+    }
+    public boolean isSick(){
+        return (sick >= 5 && sick <=12);
+    }
+    public void nextTimeUnit(){
         if(sick>1 && sick<13)
             sick+=1;
     }

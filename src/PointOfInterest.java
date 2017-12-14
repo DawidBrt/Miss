@@ -18,7 +18,7 @@ public class PointOfInterest {
         return position;
     }
 
-    public Position poi(){
+    public Position poiPosition(){
         Random generator = new Random();
         int x = generator.nextInt(getSize());
         int y = generator.nextInt(getSize());

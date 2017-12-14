@@ -27,7 +27,7 @@ public class Drawer extends JPanel {
         }
 
 		for (int i = 0; i < units.size(); i++) {
-			int sick = units.get(i).getSick();
+			int sick = units.get(i).getSickLevel();
 			if (sick==1) {
 				g2d.setColor(Color.yellow);
 			} else if(sick<=4){

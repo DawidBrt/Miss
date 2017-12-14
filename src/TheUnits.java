@@ -3,10 +3,13 @@ import java.util.List;
 import java.util.Random;
 
 public class TheUnits {
-
-	private Unit[][] unitBoard;
+	// tablica sąsiedztwa osobnikow
+	private Unit[][] unitNeighborhoodBoard;
+	// lista osobnikow
 	private List<Unit> unitList = new ArrayList<>();
+	// szansa na zainfekowanie
 	private int toInfect;
+	// skok czasowy
 	private int Time = 1;
 
 	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect, ThePoI thePoI) {
@@ -18,13 +21,16 @@ public class TheUnits {
 		Unit[][] unitBoard = new Unit[height][width];
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
+				// rand to prawdopodobieństwo zaistnienia osobnika
 				exist = generator.nextInt(101);
 				if (exist < (rand - 1)) {
+					// dodawanie PoI dla osobnika
 					List<PointOfInterest> PoI = new ArrayList<>();
 					for(int k = 0; k<3;k++) {
 						int a = generator.nextInt(thePoI.getPoIList().size());
 						PoI.add(thePoI.getPoIList().get(a));
 					}
+					// tworzenie osobnika
 					Unit unit;
 					sicked = generator.nextInt(101);
 					if (sicked <= (sick)) {
@@ -45,7 +51,7 @@ public class TheUnits {
 				}
 			}
 		}
-		this.unitBoard = unitBoard;
+		this.unitNeighborhoodBoard = unitBoard;
 	}
 
 	public int getTime() {
@@ -56,12 +62,12 @@ public class TheUnits {
 		Time+=1;
 	}
 
-	public Unit[][] getUnitBoard() {
-		return unitBoard;
+	public Unit[][] getUnitNeighborhoodBoard() {
+		return unitNeighborhoodBoard;
 	}
 
-	public void setUnitBoard(Unit[][] unitBoard) {
-		this.unitBoard = unitBoard;
+	public void setUnitNeighborhoodBoard(Unit[][] unitNeighborhoodBoard) {
+		this.unitNeighborhoodBoard = unitNeighborhoodBoard;
 	}
 
 	public List<Unit> getUnitList() {
@@ -74,26 +80,23 @@ public class TheUnits {
 
 	// aktualizacja planszy
 	// poprzednia pozycja -> null
-	public void updateBoard(int previousX, int previousY, Unit unit) {
-		unitBoard[previousY][previousX] = null;
-		unitBoard[unit.getPosition().getY()][unit.getPosition().getX()] = unit;
+	public void updateUnitNeighborhoodBoard(int previousX, int previousY, Unit unit) {
+		unitNeighborhoodBoard[previousY][previousX] = null;
+		unitNeighborhoodBoard[unit.getPosition().getY()][unit.getPosition().getX()] = unit;
 	}
-
-
-
-
+	// sprawdzanie czy pozycje na () są wolne
 	public ArrayList<Position> checkLeftMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitX - 1 >= 0) {
-			if (unitBoard[unitY][unitX - 1] == null) {
+			if (unitNeighborhoodBoard[unitY][unitX - 1] == null) {
 				unitAvailableMoves.add(new Position(unitX - 1, unitY));
 			}
 			if (unitY - 1 >= 0) {
-				if (unitBoard[unitY - 1][unitX-1] == null) {
+				if (unitNeighborhoodBoard[unitY - 1][unitX-1] == null) {
 					unitAvailableMoves.add(new Position(unitX-1, unitY - 1));
 				}
 			}
-			if (unitY + 1 < unitBoard.length) {
-				if (unitBoard[unitY + 1][unitX-1] == null) {
+			if (unitY + 1 < unitNeighborhoodBoard.length) {
+				if (unitNeighborhoodBoard[unitY + 1][unitX-1] == null) {
 					unitAvailableMoves.add(new Position(unitX-1, unitY + 1));
 				}
 			}
@@ -102,17 +105,17 @@ public class TheUnits {
 
 	}
 	public ArrayList<Position> checkRightMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
-		if (unitX + 1 < unitBoard[0].length) {
-			if (unitBoard[unitY][unitX + 1] == null) {
+		if (unitX + 1 < unitNeighborhoodBoard[0].length) {
+			if (unitNeighborhoodBoard[unitY][unitX + 1] == null) {
 				unitAvailableMoves.add(new Position(unitX + 1, unitY));
 			}
 			if (unitY - 1 >= 0) {
-				if (unitBoard[unitY - 1][unitX+1] == null) {
+				if (unitNeighborhoodBoard[unitY - 1][unitX+1] == null) {
 					unitAvailableMoves.add(new Position(unitX+1, unitY - 1));
 				}
 			}
-			if (unitY + 1 < unitBoard.length) {
-				if (unitBoard[unitY + 1][unitX+1] == null) {
+			if (unitY + 1 < unitNeighborhoodBoard.length) {
+				if (unitNeighborhoodBoard[unitY + 1][unitX+1] == null) {
 					unitAvailableMoves.add(new Position(unitX+1, unitY + 1));
 				}
 			}
@@ -121,16 +124,16 @@ public class TheUnits {
 	}
 	public ArrayList<Position> checkUpMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitY - 1 >= 0) {
-			if (unitBoard[unitY - 1][unitX] == null) {
+			if (unitNeighborhoodBoard[unitY - 1][unitX] == null) {
 				unitAvailableMoves.add(new Position(unitX, unitY - 1));
 			}
-			if (unitX + 1 < unitBoard[0].length) {
-				if (unitBoard[unitY-1][unitX + 1] == null) {
+			if (unitX + 1 < unitNeighborhoodBoard[0].length) {
+				if (unitNeighborhoodBoard[unitY-1][unitX + 1] == null) {
 					unitAvailableMoves.add(new Position(unitX + 1, unitY-1));
 				}
 			}
 			if (unitX - 1 >= 0) {
-				if (unitBoard[unitY-1][unitX - 1] == null) {
+				if (unitNeighborhoodBoard[unitY-1][unitX - 1] == null) {
 					unitAvailableMoves.add(new Position(unitX - 1, unitY-1));
 				}
 			}
@@ -138,17 +141,17 @@ public class TheUnits {
 		return unitAvailableMoves;
 	}
 	public ArrayList<Position> checkDownMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
-		if (unitY + 1 < unitBoard.length) {
-			if (unitBoard[unitY + 1][unitX] == null) {
+		if (unitY + 1 < unitNeighborhoodBoard.length) {
+			if (unitNeighborhoodBoard[unitY + 1][unitX] == null) {
 				unitAvailableMoves.add(new Position(unitX, unitY + 1));
 			}
-			if (unitX + 1 < unitBoard[0].length) {
-				if (unitBoard[unitY+1][unitX + 1] == null) {
+			if (unitX + 1 < unitNeighborhoodBoard[0].length) {
+				if (unitNeighborhoodBoard[unitY+1][unitX + 1] == null) {
 					unitAvailableMoves.add(new Position(unitX + 1, unitY+1));
 				}
 			}
 			if (unitX - 1 >= 0) {
-				if (unitBoard[unitY+1][unitX - 1] == null) {
+				if (unitNeighborhoodBoard[unitY+1][unitX - 1] == null) {
 					unitAvailableMoves.add(new Position(unitX - 1, unitY+1));
 				}
 			}
@@ -165,6 +168,7 @@ public class TheUnits {
 		int unitY = unit.getPosition().getY();
 
 		ArrayList<Position> unitAvailableMoves = new ArrayList<Position>();
+
 		// ruch gora
 		if (unitX > PoIX) {
 			checkUpMove(unitAvailableMoves,unitX,unitY);
@@ -203,7 +207,7 @@ public class TheUnits {
 			unitList.get(i).getPosition().setX(availableMoves.get(option).getX());
 			unitList.get(i).getPosition().setY(availableMoves.get(option).getY());
 			// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
-			updateBoard(previousX, previousY, unitList.get(i));
+			updateUnitNeighborhoodBoard(previousX, previousY, unitList.get(i));
 		}
 	}
 
@@ -215,11 +219,11 @@ public class TheUnits {
 				x = col + j;
 				y = row + i;
 				// granice planszy
-				if (y >= 0 && y < unitBoard.length && x >= 0 && x < unitBoard[0].length) {
+				if (y >= 0 && y < unitNeighborhoodBoard.length && x >= 0 && x < unitNeighborhoodBoard[0].length) {
 					// nie liczymy samej siebie
 					if (!(x == col && y == row)) {
 						// jezeli sasiad zarazony, zwiekszamy licznik
-						if (unitBoard[y][x] != null && unitBoard[y][x].isInfected()) {
+						if (unitNeighborhoodBoard[y][x] != null && unitNeighborhoodBoard[y][x].isInfected()) {
 							infected++;
 						}
 					}
@@ -234,9 +238,9 @@ public class TheUnits {
 		int infection;
 		int sickNeighbours;
 		int x, y;
-		Unit[][] nextMoveBoard = unitBoard.clone();
+		Unit[][] nextMoveBoard = unitNeighborhoodBoard.clone();
 		for (int i = 0; i < unitList.size(); i++) {
-		    if(unitList.get(i).getSick()==1) {
+		    if(unitList.get(i).getSickLevel()==1) {
                 x = unitList.get(i).getPosition().getX();
                 y = unitList.get(i).getPosition().getY();
                 nextMoveBoard[y][x].setPosition(new Position(x, y));
@@ -248,14 +252,14 @@ public class TheUnits {
                 }
             }
             else if(getTime()%5==0){
-				unitList.get(i).nextDay();
+				unitList.get(i).nextTimeUnit();
 			}
 			setTime();
 		}
-		this.unitBoard = nextMoveBoard.clone();
+		this.unitNeighborhoodBoard = nextMoveBoard.clone();
 	}
 
-	public int countExist(){
+	public int countExisting(){
 		return unitList.size();
 	}
 
