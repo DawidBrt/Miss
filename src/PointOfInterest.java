@@ -1,17 +1,15 @@
 import java.util.Random;
 
 public class PointOfInterest {
-    private String location;
     private int width;
     private int height;
     private Position position = new Position(0,0);
 
-    public PointOfInterest(int x, int y, int width, int height, String location){
+    public PointOfInterest(int x, int y, int width, int height){
         this.width = width;
         this.height = height;
         this.position.setX(x);
         this.position.setY(y);
-        this.location = location;
     }
 
     public int getWidth() {

@@ -10,7 +10,7 @@ public class TheUnits {
 	// szansa na zainfekowanie
 	private int toInfect;
 	// skok czasowy
-	private int Time = 1;
+	private int time = 1;
 
 	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect, ThePoI thePoI) {
 		this.toInfect = toInfect;
@@ -55,11 +55,15 @@ public class TheUnits {
 	}
 
 	public int getTime() {
-		return Time;
+		return time;
 	}
 
 	public void setTime(){
-		Time+=1;
+		time+=1;
+	}
+
+	public void setTime(int time){
+		this.time = time;
 	}
 
 	public Unit[][] getUnitNeighborhoodBoard() {
@@ -209,6 +213,18 @@ public class TheUnits {
 			// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
 			updateUnitNeighborhoodBoard(previousX, previousY, unitList.get(i));
 			unitList.get(i).changePoI();
+			if(!unitList.get(i).isSick()){
+				availableMoves = checkUnitAvailableMoves(unitList.get(i));
+				// losujemy ruch z dostepnych opcji i ustawiamy nowe wspolrzedne
+				option = generator.nextInt(availableMoves.size());
+				previousX = unitList.get(i).getPosition().getX();
+				previousY = unitList.get(i).getPosition().getY();
+				unitList.get(i).getPosition().setX(availableMoves.get(option).getX());
+				unitList.get(i).getPosition().setY(availableMoves.get(option).getY());
+				// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
+				updateUnitNeighborhoodBoard(previousX, previousY, unitList.get(i));
+				unitList.get(i).changePoI();
+			}
 		}
 	}
 
@@ -252,8 +268,9 @@ public class TheUnits {
                     nextMoveBoard[y][x].setSick(2);
                 }
             }
-            else if(getTime()%100==0){
+            else if(getTime()%240==0){
 				unitList.get(i).nextTimeUnit();
+				setTime(0);
 			}
 			setTime();
 		}
