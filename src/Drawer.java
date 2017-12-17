@@ -20,10 +20,11 @@ public class Drawer extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		for(int i=0;i<pointOfInterests.size();i++){
 		    g2d.setColor(Color.black);
-		    int s = pointOfInterests.get(i).getSize();
+		    int w = pointOfInterests.get(i).getWidth();
+		    int h = pointOfInterests.get(i).getHeight();
 		    int x = pointOfInterests.get(i).getPosition().getX();
 		    int y = pointOfInterests.get(i).getPosition().getY();
-		    g2d.drawRect(x*size,y*size,s*size,s*size);
+		    g2d.fillRect(x*size,y*size,w*size,h*size);
         }
 
 		for (int i = 0; i < units.size(); i++) {

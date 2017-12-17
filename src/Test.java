@@ -17,7 +17,7 @@ public class Test {
 		int sick = 10;
 		int infected = 3; //infekujacy jeszcze nie chorzy
 		int immune = 5; //odporni na chorobe
-		int toInfect = 5; //szansa na zainfekowanie w %
+		int toInfect = 1; //szansa na zainfekowanie w %
 
 		// obiekt zawierający świat oraz generujący losowo mieszkańców
 		TheUnits theUnits = new TheUnits(width, height, exist, sick, infected, immune, toInfect, thePoI);

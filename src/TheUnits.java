@@ -208,6 +208,7 @@ public class TheUnits {
 			unitList.get(i).getPosition().setY(availableMoves.get(option).getY());
 			// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
 			updateUnitNeighborhoodBoard(previousX, previousY, unitList.get(i));
+			unitList.get(i).changePoI();
 		}
 	}
 
@@ -251,7 +252,7 @@ public class TheUnits {
                     nextMoveBoard[y][x].setSick(2);
                 }
             }
-            else if(getTime()%5==0){
+            else if(getTime()%100==0){
 				unitList.get(i).nextTimeUnit();
 			}
 			setTime();
