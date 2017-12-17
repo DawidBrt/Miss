@@ -12,7 +12,7 @@ public class Test {
 		//TODO: zmiana wielkosci (width,heigh) powinna wplywac na wielkosc/ilosc/polozenie points of interest
 
 		//
-		int exist = 40;
+		int exist = 10;
 		// 1 - zdrowy, 2-4 - zakaza(bez objawow), 5-12 - chory,13 - "niesmiertelny" przynajmniej na grype
 		int sick = 10;
 		int infected = 3; //infekujacy jeszcze nie chorzy
@@ -32,7 +32,7 @@ public class Test {
             System.out.println("Infected: " + theUnits.countInfected());
             System.out.println();
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,7 +40,7 @@ public class Test {
 			theUnits.makeMove();
 			drawer.repaint();
 			try {
-				Thread.sleep(200);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
