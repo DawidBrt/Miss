@@ -1,18 +1,22 @@
 import java.util.Random;
 
 public class PointOfInterest {
-    private int size;
+    private int width;
+    private int height;
     private Position position = new Position(0,0);
 
-    public PointOfInterest(int x, int y, int size){
-        this.size = size;
+    public PointOfInterest(int x, int y, int width, int height){
+        this.width = width;
+        this.height = height;
         this.position.setX(x);
         this.position.setY(y);
     }
 
-    public int getSize() {
-        return size;
+    public int getWidth() {
+        return width;
     }
+
+    public int getHeight() { return height; }
 
     public Position getPosition() {
         return position;
@@ -20,8 +24,8 @@ public class PointOfInterest {
 
     public Position poiPosition(){
         Random generator = new Random();
-        int x = generator.nextInt(getSize());
-        int y = generator.nextInt(getSize());
+        int x = generator.nextInt(getWidth());
+        int y = generator.nextInt(getHeight());
         return new Position(x+getPosition().getX(),y+getPosition().getY());
     }
 }

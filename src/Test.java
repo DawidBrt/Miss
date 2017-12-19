@@ -1,22 +1,14 @@
 public class Test {
 	public static void main(String[] args) {
 
-		//
-		int size = 7;
-		// szerokość okna
-		int width = 200;
-		// wysokość okna
-		int height = 100;
-		//
-		ThePoI thePoI = new ThePoI();
-		//TODO: zmiana wielkosci (width,heigh) powinna wplywac na wielkosc/ilosc/polozenie points of interest
-
-		//
-		int exist = 40;
-		// 1 - zdrowy, 2-4 - zakaza(bez objawow), 5-12 - chory,13 - "niesmiertelny" przynajmniej na grype
-		int sick = 10;
-		int infected = 3; //infekujacy jeszcze nie chorzy
-		int immune = 5; //odporni na chorobe
+		int size = 7; // wielkosc "piksela"+2
+		int width = 200; // szerokość okna
+		int height = 100; // wysokość okna
+		ThePoI thePoI = new ThePoI(); //Points of Interest
+		int exist = 10; // % jednostek na mapie
+		int sick = 10; // % chorych z zyjacych jednostek
+		int infected = 3; // % infekujacy jeszcze nie chorych
+		int immune = 5; // % odpornych na chorobe
 		int toInfect = 5; //szansa na zainfekowanie w %
 
 		// obiekt zawierający świat oraz generujący losowo mieszkańców
@@ -26,13 +18,13 @@ public class Test {
 		Drawer drawer = new Drawer(theUnits, width, height, size, thePoI);
 		MyFrame myFrame = new MyFrame(drawer);
 
-		// pętla symulacji
+		// nieskonczona pętla symulacji
 		while (true) {
             System.out.println("Units: "+ theUnits.countExisting());
             System.out.println("Infected: " + theUnits.countInfected());
             System.out.println();
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,7 +32,7 @@ public class Test {
 			theUnits.makeMove();
 			drawer.repaint();
 			try {
-				Thread.sleep(200);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

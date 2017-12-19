@@ -11,6 +11,8 @@ public class Unit {
     // 1 - zdrowy, 2-4 - zakaza(bez objawow), 5-12 - chory,13 - "niesmiertelny" przynajmniej na grype
     private int sick;
 
+    private int counter; //liczy ile czasu w danym miejscu spedzil
+
 
     public Unit(int x, int y, int sick, List<PointOfInterest> pointOfInterests){
         this.position.setX(x);
@@ -22,6 +24,7 @@ public class Unit {
         for(int i=0;i<pointOfInterests.size();i++){
             pointsOfInterest.add(pointOfInterests.get(i).poiPosition());
         }
+        counter = 0;
     }
 
     public Position getPosition() {
@@ -36,6 +39,10 @@ public class Unit {
     public int getSickLevel() {
         return sick;
     }
+
+    public int getCounter(){ return counter;}
+
+    public void setCounter(){ counter++; }
 
     public void setSick(int sick) {
         if(sick<1 || sick>13){
@@ -68,5 +75,19 @@ public class Unit {
 
     public Position getPoI(){
         return pointsOfInterest.get(0);
+    }
+
+    public void changePoI(){
+        if(getPosition().getX()==pointsOfInterest.get(0).getX()
+                && getPosition().getY()==pointsOfInterest.get(0).getY()){
+            if(getCounter()<70){
+                setCounter();
+            }
+            else {
+                Position tmp = pointsOfInterest.get(0);
+                pointsOfInterest.remove(0);
+                pointsOfInterest.add(tmp);
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ public class TheUnits {
 	// szansa na zainfekowanie
 	private int toInfect;
 	// skok czasowy
-	private int Time = 1;
+	private int time = 1;
 
 	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect, ThePoI thePoI) {
 		this.toInfect = toInfect;
@@ -55,11 +55,15 @@ public class TheUnits {
 	}
 
 	public int getTime() {
-		return Time;
+		return time;
 	}
 
 	public void setTime(){
-		Time+=1;
+		time+=1;
+	}
+
+	public void setTime(int time){
+		this.time = time;
 	}
 
 	public Unit[][] getUnitNeighborhoodBoard() {
@@ -85,7 +89,7 @@ public class TheUnits {
 		unitNeighborhoodBoard[unit.getPosition().getY()][unit.getPosition().getX()] = unit;
 	}
 	// sprawdzanie czy pozycje na () są wolne
-	public ArrayList<Position> checkLeftMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+	public List<Position> checkLeftMove(List<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitX - 1 >= 0) {
 			if (unitNeighborhoodBoard[unitY][unitX - 1] == null) {
 				unitAvailableMoves.add(new Position(unitX - 1, unitY));
@@ -104,7 +108,7 @@ public class TheUnits {
 		return unitAvailableMoves;
 
 	}
-	public ArrayList<Position> checkRightMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+	public List<Position> checkRightMove(List<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitX + 1 < unitNeighborhoodBoard[0].length) {
 			if (unitNeighborhoodBoard[unitY][unitX + 1] == null) {
 				unitAvailableMoves.add(new Position(unitX + 1, unitY));
@@ -122,7 +126,7 @@ public class TheUnits {
 		}
 		return unitAvailableMoves;
 	}
-	public ArrayList<Position> checkUpMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+	public List<Position> checkUpMove(List<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitY - 1 >= 0) {
 			if (unitNeighborhoodBoard[unitY - 1][unitX] == null) {
 				unitAvailableMoves.add(new Position(unitX, unitY - 1));
@@ -140,7 +144,7 @@ public class TheUnits {
 		}
 		return unitAvailableMoves;
 	}
-	public ArrayList<Position> checkDownMove(ArrayList<Position> unitAvailableMoves, int unitX, int unitY){
+	public List<Position> checkDownMove(List<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitY + 1 < unitNeighborhoodBoard.length) {
 			if (unitNeighborhoodBoard[unitY + 1][unitX] == null) {
 				unitAvailableMoves.add(new Position(unitX, unitY + 1));
@@ -161,31 +165,31 @@ public class TheUnits {
 
 
 	// znalezienie mozliwych ruchow danej jednostki
-	public List<Position> checkUnitAvailableMoves(Unit unit, Position PoI) {
-		int PoIX = PoI.getX();
-		int PoIY = PoI.getY();
+	public List<Position> checkUnitAvailableMoves(Unit unit) {
+		int PoIX = unit.getPoI().getX();
+		int PoIY = unit.getPoI().getY();
 		int unitX = unit.getPosition().getX();
 		int unitY = unit.getPosition().getY();
 
-		ArrayList<Position> unitAvailableMoves = new ArrayList<Position>();
+		List<Position> unitAvailableMoves = new ArrayList<>();
 
 		// ruch gora
-		if (unitX > PoIX) {
+		if (unitY > PoIY) {
 			checkUpMove(unitAvailableMoves,unitX,unitY);
 		}
 
 		// ruch dol
-		else if (unitX < PoIX) {
+		else if (unitY < PoIY) {
 			checkDownMove(unitAvailableMoves,unitX,unitY);
 		}
 
 		// ruch prawo
-		if (unitY < PoIY) {
+		if (unitX < PoIX) {
 			checkRightMove(unitAvailableMoves,unitX,unitY);
 		}
 
 		// ruch lewo
-		if (unitY > PoIY) {
+		else if (unitX > PoIX) {
 			checkLeftMove(unitAvailableMoves,unitX,unitY);
 		}
 
@@ -199,7 +203,7 @@ public class TheUnits {
 	public void makeMove() {
 		Random generator = new Random();
 		for (int i = 0; i < unitList.size(); i++) {
-			List<Position> availableMoves = checkUnitAvailableMoves(unitList.get(i),unitList.get(i).getPoI());
+			List<Position> availableMoves = checkUnitAvailableMoves(unitList.get(i));
 			// losujemy ruch z dostepnych opcji i ustawiamy nowe wspolrzedne
 			int option = generator.nextInt(availableMoves.size());
 			int previousX = unitList.get(i).getPosition().getX();
@@ -208,6 +212,19 @@ public class TheUnits {
 			unitList.get(i).getPosition().setY(availableMoves.get(option).getY());
 			// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
 			updateUnitNeighborhoodBoard(previousX, previousY, unitList.get(i));
+			unitList.get(i).changePoI();
+			if(!unitList.get(i).isSick()){
+				availableMoves = checkUnitAvailableMoves(unitList.get(i));
+				// losujemy ruch z dostepnych opcji i ustawiamy nowe wspolrzedne
+				option = generator.nextInt(availableMoves.size());
+				previousX = unitList.get(i).getPosition().getX();
+				previousY = unitList.get(i).getPosition().getY();
+				unitList.get(i).getPosition().setX(availableMoves.get(option).getX());
+				unitList.get(i).getPosition().setY(availableMoves.get(option).getY());
+				// aktualizacja planszy po kazdym ruchu pojedynczej jednostki
+				updateUnitNeighborhoodBoard(previousX, previousY, unitList.get(i));
+				unitList.get(i).changePoI();
+			}
 		}
 	}
 
@@ -251,8 +268,9 @@ public class TheUnits {
                     nextMoveBoard[y][x].setSick(2);
                 }
             }
-            else if(getTime()%5==0){
+            else if(getTime()%240==0){
 				unitList.get(i).nextTimeUnit();
+				setTime(0);
 			}
 			setTime();
 		}
