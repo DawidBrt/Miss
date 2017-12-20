@@ -36,16 +36,23 @@ public class Unit {
     	this.position.setY(position.getY());
     }
 
+    public int getCounter(){
+        return counter;
+    }
+
+    public void setCounter(){
+        counter++;
+    }
+
     public int getSickLevel() {
         return sick;
     }
 
-    public int getCounter(){ return counter;}
-
-    public void setCounter(){ counter++; }
-
-    public void setSick(int sick) {
-        if(sick<1 || sick>13){
+    public void setSickLevel(int sick) {
+        if(sick > 13){
+            sick = 13;
+        }
+        else if(sick < 1){
             sick = 1;
         }
         this.sick = sick;
@@ -62,16 +69,23 @@ public class Unit {
     public boolean isHealthy(){
         return (sick == 1);
     }
+
     public boolean isCarrier(){
         return (sick >= 2 && sick <=4);
     }
+
     public boolean isSick(){
         return (sick >= 5 && sick <=12);
     }
-    public void nextTimeUnit(){
+
+    public boolean isImmune() {
+        return (sick == 13);
+    }
+
+ /*   public void nextTimeUnit(){
         if(sick>1 && sick<13)
             sick+=1;
-    }
+    }*/
 
     public Position getPoI(){
         return pointsOfInterest.get(0);

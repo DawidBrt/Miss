@@ -91,16 +91,19 @@ public class TheUnits {
 	// sprawdzanie czy pozycje na () są wolne
 	public List<Position> checkLeftMove(List<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitX - 1 >= 0) {
+			// ruch poziomo w lewo
 			if (unitNeighborhoodBoard[unitY][unitX - 1] == null) {
 				unitAvailableMoves.add(new Position(unitX - 1, unitY));
 			}
+			// ruch po skosie w dół i lewo
 			if (unitY - 1 >= 0) {
-				if (unitNeighborhoodBoard[unitY - 1][unitX-1] == null) {
+				if (unitNeighborhoodBoard[unitY - 1][unitX - 1] == null) {
 					unitAvailableMoves.add(new Position(unitX-1, unitY - 1));
 				}
 			}
+			// ruch po skosie w górę i lewo
 			if (unitY + 1 < unitNeighborhoodBoard.length) {
-				if (unitNeighborhoodBoard[unitY + 1][unitX-1] == null) {
+				if (unitNeighborhoodBoard[unitY + 1][unitX -1 ] == null) {
 					unitAvailableMoves.add(new Position(unitX-1, unitY + 1));
 				}
 			}
@@ -110,14 +113,17 @@ public class TheUnits {
 	}
 	public List<Position> checkRightMove(List<Position> unitAvailableMoves, int unitX, int unitY){
 		if (unitX + 1 < unitNeighborhoodBoard[0].length) {
+			// ruch poziomo w prawo
 			if (unitNeighborhoodBoard[unitY][unitX + 1] == null) {
 				unitAvailableMoves.add(new Position(unitX + 1, unitY));
 			}
+			// ruch po skosie w dół i lewo
 			if (unitY - 1 >= 0) {
 				if (unitNeighborhoodBoard[unitY - 1][unitX+1] == null) {
 					unitAvailableMoves.add(new Position(unitX+1, unitY - 1));
 				}
 			}
+			// ruch po skosie w górę i lewo
 			if (unitY + 1 < unitNeighborhoodBoard.length) {
 				if (unitNeighborhoodBoard[unitY + 1][unitX+1] == null) {
 					unitAvailableMoves.add(new Position(unitX+1, unitY + 1));
@@ -257,6 +263,7 @@ public class TheUnits {
 		int x, y;
 		Unit[][] nextMoveBoard = unitNeighborhoodBoard.clone();
 		for (int i = 0; i < unitList.size(); i++) {
+			// osobnik jest zdrowy
 		    if(unitList.get(i).getSickLevel()==1) {
                 x = unitList.get(i).getPosition().getX();
                 y = unitList.get(i).getPosition().getY();
@@ -265,11 +272,13 @@ public class TheUnits {
 
                 sickNeighbours = countNeighboursInfected(x, y);
                 if (infection < (toInfect * (Math.pow(2, sickNeighbours) - 1) - 1)) {
-                    nextMoveBoard[y][x].setSick(2);
+                    nextMoveBoard[y][x].setSickLevel(2);
                 }
             }
+            // osobnik niezdrowy oraz minął dzień
             else if(getTime()%240==0){
-				unitList.get(i).nextTimeUnit();
+		    	unitList.get(i).setSickLevel(unitList.get(i).getSickLevel() + 1);
+				//unitList.get(i).nextTimeUnit();
 				setTime(0);
 			}
 			setTime();
@@ -287,6 +296,29 @@ public class TheUnits {
 			if(unitList.get(i).isInfected()){
 				counter ++;
 			}
+		}
+		return counter;
+	}
+	public int countCarriers() {
+		int counter = 0;
+		for(int i = 0; i < unitList.size(); i++){
+			if(unitList.get(i).isCarrier()) counter ++;
+		}
+		return counter;
+	}
+
+	public int countHealthy() {
+		int counter = 0;
+		for(int i = 0; i < unitList.size(); i++){
+			if(unitList.get(i).isHealthy()) counter ++;
+		}
+		return counter;
+	}
+
+	public int countImmune() {
+		int counter = 0;
+		for(int i = 0; i < unitList.size(); i++){
+			if(unitList.get(i).isImmune()) counter ++;
 		}
 		return counter;
 	}

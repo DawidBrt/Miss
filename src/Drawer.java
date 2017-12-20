@@ -32,7 +32,7 @@ public class Drawer extends JPanel {
 			if (sick==1) {
 				g2d.setColor(Color.yellow);
 			} else if(sick<=4){
-				g2d.setColor(Color.orange);
+				g2d.setColor(Color.gray);
 			} else if(sick<=12){
 				g2d.setColor(Color.red);
 			} else{
