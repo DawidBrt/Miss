@@ -22,8 +22,8 @@ public class Drawer extends JPanel {
 		    g2d.setColor(Color.black);
 		    int w = pointOfInterests.get(i).getWidth();
 		    int h = pointOfInterests.get(i).getHeight();
-		    int x = pointOfInterests.get(i).getPosition().getX();
-		    int y = pointOfInterests.get(i).getPosition().getY();
+		    int x = pointOfInterests.get(i).getX();
+		    int y = pointOfInterests.get(i).getY();
 		    g2d.fillRect(x*size,y*size,w*size,h*size);
         }
 
