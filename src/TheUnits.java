@@ -60,10 +60,9 @@ public class TheUnits {
 
 	public void setTime(){
 		time+=1;
-	}
-
-	public void setTime(int time){
-		this.time = time;
+		if(time>239) {
+			time = 0;
+		}
 	}
 
 	public Unit[][] getUnitNeighborhoodBoard() {
@@ -276,13 +275,12 @@ public class TheUnits {
                 }
             }
             // osobnik niezdrowy oraz minął dzień
-            else if(getTime()%240==0){
+            else if(getTime()==0){
 		    	unitList.get(i).setSickLevel(unitList.get(i).getSickLevel() + 1);
-				//unitList.get(i).nextTimeUnit();
-				setTime(0);
 			}
-			setTime();
+
 		}
+		setTime();
 		this.unitNeighborhoodBoard = nextMoveBoard.clone();
 	}
 

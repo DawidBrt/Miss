@@ -6,10 +6,10 @@ public class Test {
 		int height = 100; // wysokość okna
 		ThePoI thePoI = new ThePoI(); //Points of Interest
 		int exist = 5; // % jednostek na mapie
-		int sick = 10; // % chorych z zyjacych jednostek
-		int infected = 3; // % infekujacy jeszcze nie chorych
+		int sick = 5; // % chorych z zyjacych jednostek
+		int infected = 2; // % infekujacy jeszcze nie chorych
 		int immune = 5; // % odpornych na chorobe
-		int toInfect = 25; //szansa na zainfekowanie w %
+		int toInfect = 2; //szansa na zainfekowanie w %
 
 		// obiekt zawierający świat oraz generujący losowo mieszkańców
 		TheUnits theUnits = new TheUnits(width, height, exist, sick, infected, immune, toInfect, thePoI);
@@ -20,7 +20,7 @@ public class Test {
 
 		// logger
 		Log logger = new Log();
-		String separator = ",";
+		String separator = ", ";
 
 		// nieskonczona pętla symulacji
 		while (true) {
@@ -49,7 +49,7 @@ public class Test {
 			theUnits.makeMove();
 			drawer.repaint();
 			try {
-				Thread.sleep(20);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
