@@ -22,7 +22,7 @@ public class Unit {
         }
         this.sick = sick;
         for(int i=0;i<pointOfInterests.size();i++){
-            pointsOfInterest.add(pointOfInterests.get(i).poiPosition());
+            pointsOfInterest.add(pointOfInterests.get(i).poiPositionRandomReset());
         }
         counter = 0;
     }

@@ -10,7 +10,7 @@ public class Drawer extends JPanel {
 	public Drawer(TheUnits theUnits, int width, int height, int size, ThePoI thePoI) {
 		this.size = size;
 		this.units = theUnits.getUnitList();
-		this.pointOfInterests = thePoI.getPoIList();
+		this.pointOfInterests = thePoI.getPointOfInterest();
 		setPreferredSize(new Dimension(width * size, height * size));
 	}
 

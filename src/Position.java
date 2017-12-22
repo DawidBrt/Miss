@@ -1,4 +1,4 @@
-public class Position {
+public class Position implements Comparable<Position>{
 	private int x;
 	private int y;
 	
@@ -22,5 +22,11 @@ public class Position {
 	public void setY(int y){
 		this.y = y;
 	}
+
+	public int compareTo (Position position) {
+		int compareX = ((Position) position).getX();
+		return this.getX() - compareX;
+	}
+
 	
 }

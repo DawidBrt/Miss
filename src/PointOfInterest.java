@@ -18,7 +18,7 @@ public class PointOfInterest extends Position {
     	return height; 
     }
 
-    public Position poiPosition(){
+    public Position poiPositionRandomReset(){
         Random generator = new Random();
         int x = generator.nextInt(getWidth());
         int y = generator.nextInt(getHeight());

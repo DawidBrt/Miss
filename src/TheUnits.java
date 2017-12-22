@@ -10,7 +10,9 @@ public class TheUnits {
 	// szansa na zainfekowanie
 	private int toInfect;
 	// skok czasowy
-	private int time = 1;
+	private int timeInDayCounter = 1;
+
+	private int dayCounter = 0;
 
 	public TheUnits(int width, int height, int rand, int sick,int infected, int immune, int toInfect, ThePoI thePoI) {
 		this.toInfect = toInfect;
@@ -27,8 +29,8 @@ public class TheUnits {
 					// dodawanie PoI dla osobnika
 					List<PointOfInterest> PoI = new ArrayList<>();
 					for(int k = 0; k<3;k++) {
-						int a = generator.nextInt(thePoI.getPoIList().size());
-						PoI.add(thePoI.getPoIList().get(a));
+						int a = generator.nextInt(thePoI.getPointOfInterest().size());
+						PoI.add(thePoI.getPointOfInterest().get(a));
 					}
 					// tworzenie osobnika
 					Unit unit;
@@ -54,15 +56,28 @@ public class TheUnits {
 		this.unitNeighborhoodBoard = unitBoard;
 	}
 
-	public int getTime() {
-		return time;
+	public int getTimeInDayCounter() {
+		return timeInDayCounter;
 	}
 
-	public void setTime(){
-		time+=1;
-		if(time>239) {
-			time = 0;
+
+
+	public void setTimeInDayCounter(){
+		timeInDayCounter +=1;
+		if(timeInDayCounter >239) {
+			timeInDayCounter = 0;
+			setDayCounter();
 		}
+	}
+
+	public int getDayCounter() {
+		return dayCounter;
+	}
+
+
+
+	public void setDayCounter(){
+		dayCounter +=1;
 	}
 
 	public Unit[][] getUnitNeighborhoodBoard() {
@@ -275,12 +290,12 @@ public class TheUnits {
                 }
             }
             // osobnik niezdrowy oraz minął dzień
-            else if(getTime()==0){
+            else if(getTimeInDayCounter()==0){
 		    	unitList.get(i).setSickLevel(unitList.get(i).getSickLevel() + 1);
 			}
 
 		}
-		setTime();
+		setTimeInDayCounter();
 		this.unitNeighborhoodBoard = nextMoveBoard.clone();
 	}
 
