@@ -15,7 +15,7 @@ public class Test {
 		// TODO(1): {--DONE--} obiekt wczytujący obraz png (monochromatyczny) - planowana funkcjonalność do symulacji: zwrócenie znalezionych PoI (czarne obszary), zwrócenie wymiarów obrazu (jako wymiary obszaru na którym rozpatrywana jest symulacja
 		// TODO(2): w związku z (1) potrzebna będzie rekalibracja rozmiarów unitów do 1x1 px ewentualnie wprowadzić jakieś skalowanie
 
-		String imgPath = "testImg1.png";
+		String imgPath = "img/testImg1.png";
 		String logPath = "log/sim.log";
 
 		// logger
