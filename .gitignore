@@ -8,6 +8,9 @@
 # Log file
 *.log
 
+# Currently not used
+*.xml
+
 # Package Files #
 *.jar
 *.war
