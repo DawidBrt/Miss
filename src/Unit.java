@@ -5,7 +5,7 @@ public class Unit {
     // pozycja osobnika
     private Position position = new Position(0,0);
 
-    // lista PoI osobnika (może być różna dla różnych osobników)
+    // lista PoI osobnika (moze byc rozna dla roznych osobnikow)
     private List<Position> pointsOfInterest = new ArrayList<>();
 
     // 1 - zdrowy, 2-4 - zakaza(bez objawow), 5-12 - chory,13 - "niesmiertelny" przynajmniej na grype
