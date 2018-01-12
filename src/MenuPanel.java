@@ -35,7 +35,7 @@ public class MenuPanel extends JPanel {
 		btnStart.setBounds(10, 270, 90, 20);
 		JButton btnPause = new JButton("Pauza");
 		btnPause.setBounds(100, 270, 90, 20);
-		JButton btnResume = new JButton("Wznów");
+		JButton btnResume = new JButton("Wznow");
 		btnResume.setBounds(190, 270, 90, 20);
 
 		btnStart.getModel().addActionListener(new ActionListener() {

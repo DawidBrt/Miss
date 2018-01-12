@@ -33,10 +33,11 @@ public class Simulation {
 	// obiekt zawierający świat oraz generujący losowo mieszkańców
 	// TheUnits theUnits = new TheUnits(width, height, exist, sick, infected,
 	// immune, toInfect, thePoI);
-	private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, image.getPoIsFromImage());
+	ThePoI thePoi = image.getPoIsFromImage();
+	private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, thePoi);
 
 	// obiekty do rysowania
-	private Drawer drawer = new Drawer(theUnits, width, height, size, image.getPoIsFromImage());
+	private Drawer drawer = new Drawer(theUnits, width, height, size, thePoi);
 	private MenuPanel menu = new MenuPanel(width, height, this, initialParameters);
 	private MyFrame myFrame = new MyFrame(drawer, menu);
 
@@ -104,7 +105,7 @@ public class Simulation {
 				}
 				theUnits.infect();
 				drawer.repaint();
-				logger.makeLogFile(logPath);
+				logger.makeLogFile();
 			} else {
 			}
 		}

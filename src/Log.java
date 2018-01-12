@@ -13,7 +13,7 @@ public class Log {
     public void getLogLine(String line) {
         lines.add(line);
     }
-    public void makeLogFile(String path) {
+    public void makeLogFile() {
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(simLog), StandardCharsets.UTF_8))) {
             for(int i = 0; i < lines.size(); i++)
