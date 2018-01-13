@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="javafx-ui-common" level="application" />
+    <orderEntry type="library" name="javafx-ui-controls" level="project" />
   </component>
 </module>

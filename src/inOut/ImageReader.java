@@ -1,3 +1,9 @@
+package inOut;
+
+import objects.PointOfInterest;
+import objects.Position;
+import objects.ThePoI;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -173,7 +179,7 @@ public class ImageReader {
         imgBinData.makeLogFile();
 
         //Collections.sort(positionList);
-        ArrayList<PointOfInterest> poiList = new ArrayList<>();
+        ArrayList<objects.PointOfInterest> poiList = new ArrayList<>();
 
         //W zensie nie wkryto wielkokrotności 4 jako ilości rogów PoI
         if (positionList.size() % 4 != 0) {
@@ -197,7 +203,7 @@ public class ImageReader {
 
 
 
-                PointOfInterest poi = new PointOfInterest( p0[0], p0[1], abs(p0[0]-p3[0]) ,abs(p0[1]-p3[1]) );
+                objects.PointOfInterest poi = new objects.PointOfInterest( p0[0], p0[1], abs(p0[0]-p3[0]) ,abs(p0[1]-p3[1]) );
                 poiList.add(poi);
             }
         }*/

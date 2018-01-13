@@ -5,7 +5,7 @@
 # Compiled class file
 *.class
 
-# Log file
+# inOut.Log file
 *.log
 
 # Currently not used

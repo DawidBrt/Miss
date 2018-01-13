@@ -1,3 +1,7 @@
+package GUI;
+
+import objects.*;
+
 import java.awt.*;
 import java.util.List;
 import javax.swing.JPanel;
@@ -39,7 +43,7 @@ public class Drawer extends JPanel {
 				g2d.setColor(Color.green);
 			}
 			g2d.fillRect(units.get(i).getPosition().getX() * size + 1, units.get(i).getPosition().getY() * size + 1,
-					size - 2, size - 2);
+					size - 1, size - 1);
 		}
 	}
 

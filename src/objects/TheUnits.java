@@ -1,3 +1,5 @@
+package objects;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -35,7 +37,7 @@ public class TheUnits {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				// exist to prawdopodobieñstwo zaistnienia osobnika
+				// exist to prawdopodobieï¿½stwo zaistnienia osobnika
 				existLevel = generator.nextInt(101);
 				if (existLevel < (exist - 1)) {
 					// dodawanie PoI dla osobnika
@@ -116,7 +118,7 @@ public class TheUnits {
 			if (unitBoard[unitY][unitX - 1] == null) {
 				unitAvailableMoves.add(new Position(unitX - 1, unitY));
 			}
-			// ruch po skosie w dol‚ i lewo
+			// ruch po skosie w dolï¿½ i lewo
 			if (unitY - 1 >= 0) {
 				if (unitBoard[unitY - 1][unitX - 1] == null) {
 					unitAvailableMoves.add(new Position(unitX - 1, unitY - 1));
