@@ -10,6 +10,7 @@ public class Log {
 
     public Log(String path) {
         simLog = new File(path);
+        getLogLine("Day|Healthy|Carries|Infected|Immune");
     }
 
     public void getLogLine(String line) {

@@ -18,7 +18,7 @@ public class Simulation {
     private int[] initialParameters = {exist, sick, infected, immune, toInfect};
     private boolean simulate = false;
 
-    private String imgPath = "img/testImg3.png"; //sciezka obrazka
+    private String imgPath = "img/testImg2.png"; //sciezka obrazka
     private String logPath = "log/sim.log"; //sciezka pliku do zapisu przebiegu symulacji
 
     // logger
@@ -34,19 +34,23 @@ public class Simulation {
     private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, thePoi);
 
     // obiekty do rysowania
-    private Drawer drawer = new Drawer(theUnits, width, height, size, thePoi);
+    // mapa
+    private Map map = new Map(theUnits, image.getWidth(), image.getHeight(), size, thePoi);
+
+    // panel GUI
     private MenuPanel menu = new MenuPanel(width, height, this, initialParameters);
-    private MyFrame myFrame = new MyFrame(drawer);
+
+    private MyFrame myFrame = new MyFrame(map);
     private MyFrame myFrame2 = new MyFrame(menu);
     // głupi separator dla wejść loga
-    private String separator = ",";
+    private String separator = " | ";
 
     public void startNewSimulation() {
         this.simulate = false;
         this.theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, image.getPoIsFromImage());
-        this.drawer = new Drawer(theUnits, width, height, size, image.getPoIsFromImage());
+        this.map = new Map(theUnits, width, height, size, image.getPoIsFromImage());
         this.logger = new Log(logPath);
-        myFrame.updateFrame(drawer);
+        myFrame.updateFrame(map);
     }
 
     public void resumeSimulation() {
@@ -61,12 +65,13 @@ public class Simulation {
         this.initialParameters = parameters;
     }
 
-    // teraz skonczona petla symulacji
+    // petla symulacji
     public void simualtion() {
         // while (unitsC > immuneC) {
         while (true) {
             System.out.print("");
             if (simulate) {
+                /*
                 System.out.println("Day: " + theUnits.getDayCounter());
                 System.out.println("Time: " + theUnits.getTimeInDayCounter());
                 System.out.println("Units: " + theUnits.countExisting());
@@ -75,26 +80,33 @@ public class Simulation {
                 System.out.println("Infected: " + theUnits.countInfected());
                 System.out.println("Immune: " + theUnits.countImmune());
                 System.out.println();
+                */
 
-                logger.getLogLine("" + theUnits.getDayCounter() + separator + theUnits.getTimeInDayCounter() + separator
-                        + theUnits.countHealthy() + separator + theUnits.countCarriers() + separator
+                //zapisanie informacji do pliku raz "dziennie"
+                if(theUnits.getTimeInDayCounter() == 1){
+                    System.out.println("Day: " + theUnits.getDayCounter());
+                    logger.getLogLine("" + theUnits.getDayCounter() + separator + theUnits.countHealthy()                            + separator + theUnits.countCarriers() + separator
                         + (theUnits.countInfected() - theUnits.countCarriers()) + separator + theUnits.countImmune());
+                    logger.makeLogFile();
+                }
 
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                //ruch jednostek
                 theUnits.makeMove();
-                drawer.repaint();
+                map.repaint();
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                //infekowanie jednostek
                 theUnits.infect();
-                drawer.repaint();
-                logger.makeLogFile();
+                map.repaint();
+
             } else {
             }
         }

@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 
 public class MyFrame extends JFrame{
 	
-    public MyFrame(Drawer drawer){
+    public MyFrame(Map map){
         super("Draw");
-        add(drawer);
+        add(map);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -22,9 +22,9 @@ public class MyFrame extends JFrame{
 
     }
 
-    public void updateFrame(Drawer drawer) {
+    public void updateFrame(Map map) {
         this.getContentPane().removeAll();
-        this.getContentPane().add(drawer);
+        this.getContentPane().add(map);
         this.revalidate();
     }
 }

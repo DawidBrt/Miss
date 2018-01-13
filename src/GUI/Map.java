@@ -6,12 +6,12 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.JPanel;
 
-public class Drawer extends JPanel {
+public class Map extends JPanel {
 	private int size;
 	private List<Unit> units;
 	private List<PointOfInterest> pointOfInterests;
 
-	public Drawer(TheUnits theUnits, int width, int height, int size, ThePoI thePoI) {
+	public Map(TheUnits theUnits, int width, int height, int size, ThePoI thePoI) {
 		this.size = size;
 		this.units = theUnits.getUnitList();
 		this.pointOfInterests = thePoI.getPointOfInterest();

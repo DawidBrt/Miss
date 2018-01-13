@@ -29,6 +29,7 @@ public class TheUnits {
 		generateUnits();
 	}
 
+	//generator jednostek
 	public void generateUnits() {
 		Unit[][] unitBoard = new Unit[height][width];
 		Random generator = new Random();
@@ -37,7 +38,7 @@ public class TheUnits {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				// exist to prawdopodobie�stwo zaistnienia osobnika
+				// exist to prawdopodobienstwo zaistnienia osobnika
 				existLevel = generator.nextInt(101);
 				if (existLevel < (exist - 1)) {
 					// dodawanie PoI dla osobnika
@@ -111,7 +112,7 @@ public class TheUnits {
 		unitBoard[unit.getPosition().getY()][unit.getPosition().getX()] = unit;
 	}
 
-	// sprawdzanie czy pozycje na () sa wolne
+	// sprawdzanie czy pozycje w odpowiednim kierunku sa wolne
 	public List<Position> checkLeftMove(List<Position> unitAvailableMoves, int unitX, int unitY) {
 		if (unitX - 1 >= 0) {
 			// ruch poziomo w lewo
@@ -231,6 +232,7 @@ public class TheUnits {
 		return unitAvailableMoves;
 	}
 
+	//przesuniecie danej jednostki
 	public void makeMove() {
 		Random generator = new Random();
 		for (int i = 0; i < unitList.size(); i++) {
@@ -259,6 +261,7 @@ public class TheUnits {
 		}
 	}
 
+	//zliczenie zainfekowanych sasiadow
 	public int countNeighboursInfected(int col, int row) {
 		int x, y;
 		int infected = 0;
@@ -281,6 +284,7 @@ public class TheUnits {
 		return infected;
 	}
 
+	//proba zainfekowania zalezna od ilosci chorych sasiadow
 	public void infect() {
 		Random generator = new Random();
 		int infection;
