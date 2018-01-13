@@ -91,7 +91,7 @@ public class ImageReader {
 
     public ThePoI getPoIsFromImage() {
 
-        int[][] bwImage = new int[height][width];
+        int[][] bwImage = new int[width][height];
         ArrayList<PointOfInterest> pointList = new ArrayList<>();
 
         byte BLACK = (byte) 0;
