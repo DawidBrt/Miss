@@ -40,7 +40,7 @@ public class TheUnits {
 			for (int j = 0; j < width; j++) {
 				// exist to prawdopodobienstwo zaistnienia osobnika
 				existLevel = generator.nextInt(101);
-				if (existLevel < (exist - 1)) {
+				if (existLevel < (exist)) {
 					// dodawanie PoI dla osobnika
 					List<PointOfInterest> PoI = new ArrayList<>();
 					for (int k = 0; k < 3; k++) {
@@ -50,7 +50,7 @@ public class TheUnits {
 					// tworzenie osobnika
 					Unit unit;
 					sickLevel = generator.nextInt(101);
-					if (sickLevel <= (sick)) {
+					if (sickLevel < (sick)) {
 						int dos = generator.nextInt(7); // dos = day of sick
 						unit = new Unit(j, i, dos + 5, PoI);
 					} else if (sickLevel <= (sick + infected)) {
