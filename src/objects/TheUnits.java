@@ -300,7 +300,7 @@ public class TheUnits {
 				infection = generator.nextInt(100);
 
 				sickNeighbours = countNeighboursInfected(x, y);
-				if (infection < (toInfect * (Math.pow(2, sickNeighbours) - 1) - 1)) {
+				if (infection < (toInfect * (Math.pow(1.4, sickNeighbours) - 1)/2 - 1)) {
 					nextMoveBoard[y][x].setSickLevel(2);
 				}
 			}
