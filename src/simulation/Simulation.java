@@ -2,8 +2,10 @@ package simulation;
 
 import GUI.*;
 import inOut.*;
-import objects.ThePoI;
+import objects.PointOfInterest;
 import objects.TheUnits;
+
+import java.util.List;
 
 public class Simulation {
     private int size = 3; // wielkosc "piksela"+1
@@ -18,7 +20,7 @@ public class Simulation {
     private int[] initialParameters = {exist, sick, infected, immune, toInfect};
     private boolean simulate = false;
 
-    private String imgPath = "img/testImg2.png"; //sciezka obrazka
+    private String imgPath = "img/img1.png"; //sciezka obrazka
     private String logPath = "log/sim.log"; //sciezka pliku do zapisu przebiegu symulacji
 
     // logger
@@ -30,12 +32,12 @@ public class Simulation {
     // obiekt zawierający świat oraz generujący losowo mieszkańców
     // objects.TheUnits theUnits = new objects.TheUnits(width, height, exist, sick, infected,
     // immune, toInfect, thePoI);
-    ThePoI thePoi = image.getPoIsFromImage();
-    private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, thePoi);
+    List<PointOfInterest> pointOfInterests = image.getPoIsFromImage();
+    private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, pointOfInterests);
 
     // obiekty do rysowania
     // mapa
-    private Map map = new Map(theUnits, image.getWidth(), image.getHeight(), size, thePoi);
+    private Map map = new Map(theUnits, image.getWidth(), image.getHeight(), size, pointOfInterests);
 
     // panel GUI
     private MenuPanel menu = new MenuPanel(width, height, this, initialParameters);
@@ -89,20 +91,20 @@ public class Simulation {
                         + (theUnits.countInfected() - theUnits.countCarriers()) + separator + theUnits.countImmune());
                     logger.makeLogFile();
                 }
-
+/*
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 //ruch jednostek
                 theUnits.makeMove();
                 map.repaint();
-                try {
+                /*try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 //infekowanie jednostek
                 theUnits.infect();
                 map.repaint();

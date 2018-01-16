@@ -11,13 +11,13 @@ public class TheUnits {
 	private List<Unit> unitList = new ArrayList<>();
 	// parametry poczatkowe
 	private int width,height,exist,sick,infected,immune,toInfect;
-	private ThePoI thePoI;
+	private List<PointOfInterest> pointOfInterests;
 	// skok czasowy
 	private int timeInDayCounter = 1;
 
 	private int dayCounter = 0;
 
-	public TheUnits(int width, int height, int []initialParameters, ThePoI thePoI) {
+	public TheUnits(int width, int height, int []initialParameters, List<PointOfInterest> pointOfInterests) {
 		this.width = width;
 		this.height = height;
 		this.exist = initialParameters[0];
@@ -25,7 +25,7 @@ public class TheUnits {
 		this.infected = initialParameters[2];
 		this.immune = initialParameters[3];
 		this.toInfect = initialParameters[4];
-		this.thePoI = thePoI;
+		this.pointOfInterests = pointOfInterests;
 		generateUnits();
 	}
 
@@ -44,8 +44,8 @@ public class TheUnits {
 					// dodawanie PoI dla osobnika
 					List<PointOfInterest> PoI = new ArrayList<>();
 					for (int k = 0; k < 3; k++) {
-						int a = generator.nextInt(thePoI.getPointOfInterest().size());
-						PoI.add(thePoI.getPointOfInterest().get(a));
+						int a = generator.nextInt(pointOfInterests.size());
+						PoI.add(pointOfInterests.get(a));
 					}
 					// tworzenie osobnika
 					Unit unit;

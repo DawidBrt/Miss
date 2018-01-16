@@ -2,7 +2,6 @@ package inOut;
 
 import objects.PointOfInterest;
 import objects.Position;
-import objects.ThePoI;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -95,10 +95,10 @@ public class ImageReader {
         else return false;
     }
 
-    public ThePoI getPoIsFromImage() {
+    public List<PointOfInterest> getPoIsFromImage() {
 
         int[][] bwImage = new int[width][height];
-        ArrayList<PointOfInterest> pointList = new ArrayList<>();
+        List<PointOfInterest> pointOfInterests = new ArrayList<>();
 
         byte BLACK = (byte) 0;
         byte WHITE = (byte) 255;
@@ -135,9 +135,9 @@ public class ImageReader {
                         // Teraz mamy 3 punkty tworzące prostokąt PoI
                         //System.out.println("(x1,y)=(" + x + "," + y + "), (x2,y2)+(" + x + "," + iy + "), (x3,y3)+(" + ix + "," + y + ")");
 
-                        pointList.add(new PointOfInterest(x, y, abs(x - ix), abs(y - iy)));
+                        pointOfInterests.add(new PointOfInterest(x, y, abs(x - ix), abs(y - iy)));
                         if (ix == x || iy == y) {
-                            pointList.remove(pointList.size()-1);
+                            pointOfInterests.remove(pointOfInterests.size()-1);
                         }
                         x = ix;
                     }
@@ -207,9 +207,7 @@ public class ImageReader {
                 poiList.add(poi);
             }
         }*/
-        ThePoI thePoI = new ThePoI();
-        thePoI.fromPoIList(pointList);
-        return thePoI;
+        return pointOfInterests;
     }
 
     public int getWidth(){
