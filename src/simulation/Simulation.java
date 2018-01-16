@@ -32,7 +32,7 @@ public class Simulation {
     // obiekt zawierający świat oraz generujący losowo mieszkańców
     // objects.TheUnits theUnits = new objects.TheUnits(width, height, exist, sick, infected,
     // immune, toInfect, thePoI);
-    List<PointOfInterest> pointOfInterests = image.getPoIsFromImage();
+    private List<PointOfInterest> pointOfInterests = image.getPoIsFromImage();
     private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, pointOfInterests);
 
     // obiekty do rysowania
