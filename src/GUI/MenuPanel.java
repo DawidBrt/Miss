@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class MenuPanel extends JPanel {
-
+    //funkcja rysujaca menu
     private String[] names = {"Populacja", "Chorzy", "Zarazeni", "Odporni", "Szansa na infekcje"};
 
     public MenuPanel(int width, int height, Simulation simulation, int[] initialParameters) {

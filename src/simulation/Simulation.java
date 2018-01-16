@@ -29,9 +29,6 @@ public class Simulation {
     // obsługa obrazu
     private ImageReader image = new ImageReader(imgPath);
 
-    // obiekt zawierający świat oraz generujący losowo mieszkańców
-    // objects.TheUnits theUnits = new objects.TheUnits(width, height, exist, sick, infected,
-    // immune, toInfect, thePoI);
     private List<PointOfInterest> pointOfInterests = image.getPoIsFromImage();
     private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, pointOfInterests);
 
@@ -42,9 +39,11 @@ public class Simulation {
     // panel GUI
     private MenuPanel menu = new MenuPanel(width, height, this, initialParameters);
 
+    //ramki
     private MyFrame myFrame = new MyFrame(map);
     private MyFrame myFrame2 = new MyFrame(menu);
-    // głupi separator dla wejść loga
+
+    // separator dla wejść loga
     private String separator = " | ";
 
     public void startNewSimulation() {
@@ -73,24 +72,14 @@ public class Simulation {
         while (true) {
             System.out.print("");
             if (simulate) {
-                /*
-                System.out.println("Day: " + theUnits.getDayCounter());
-                System.out.println("Time: " + theUnits.getTimeInDayCounter());
-                System.out.println("Units: " + theUnits.countExisting());
-                System.out.println("Healthy: " + theUnits.countHealthy());
-                System.out.println("Infected/NotSick: " + theUnits.countCarriers());
-                System.out.println("Infected: " + theUnits.countInfected());
-                System.out.println("Immune: " + theUnits.countImmune());
-                System.out.println();
-                */
-
                 //zapisanie informacji do pliku raz "dziennie"
                 if(theUnits.getTimeInDayCounter() == 1){
                     System.out.println("Day: " + theUnits.getDayCounter());
-                    logger.getLogLine("" + theUnits.getDayCounter() + separator + theUnits.countHealthy()                            + separator + theUnits.countCarriers() + separator
+                    logger.getLogLine("" + theUnits.getDayCounter() + separator + theUnits.countHealthy() + separator + theUnits.countCarriers() + separator
                         + (theUnits.countInfected() - theUnits.countCarriers()) + separator + theUnits.countImmune());
                     logger.makeLogFile();
                 }
+                //spowolnienie wyswietlania symulacji
 /*
                 try {
                     Thread.sleep(50);
@@ -109,7 +98,6 @@ public class Simulation {
                 theUnits.infect();
                 map.repaint();
 
-            } else {
             }
         }
     }

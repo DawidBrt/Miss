@@ -84,10 +84,6 @@ public class Unit {
         return (sick == 13);
     }
 
- /*   public void nextTimeUnit(){
-        if(sick>1 && sick<13)
-            sick+=1;
-    }*/
 
     public Position getPoI(){
         return pointsOfInterest.get(0);

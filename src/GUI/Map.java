@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 public class Map extends JPanel {
+	//funkcja rysujaca mape wraz z obiektami
 	private int size;
 	private List<Unit> units;
 	private List<PointOfInterest> pointOfInterests;
