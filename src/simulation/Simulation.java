@@ -20,14 +20,14 @@ public class Simulation {
     private int[] initialParameters = {exist, sick, infected, immune, toInfect};
     private boolean simulate = false;
 
-    private String imgPath = "img/img1.png"; //sciezka obrazka
-    private String logPath = "log/sim.log"; //sciezka pliku do zapisu przebiegu symulacji
+    private String imgPath; //sciezka obrazka
+    private String logPath; //sciezka pliku do zapisu przebiegu symulacji
 
     // logger
-    private Log logger = new Log(logPath);
+    private Log logger;
 
     // obsługa obrazu
-    private ImageReader image = new ImageReader(imgPath);
+    private ImageReader image;
 
     private List<PointOfInterest> pointOfInterests = image.getPoIsFromImage();
     private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, pointOfInterests);
@@ -45,6 +45,15 @@ public class Simulation {
 
     // separator dla wejść loga
     private String separator = " | ";
+
+    public Simulation(String logPath, String imgPath){
+        System.out.println(imgPath);
+        this.imgPath = imgPath;
+        System.out.println(imgPath);
+        this.logPath = logPath;
+        this.logger = new Log(logPath);
+        this.image = new ImageReader(imgPath);
+    }
 
     public void startNewSimulation() {
         this.simulate = false;
