@@ -29,30 +29,33 @@ public class Simulation {
     // obsługa obrazu
     private ImageReader image;
 
-    private List<PointOfInterest> pointOfInterests = image.getPoIsFromImage();
-    private TheUnits theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, pointOfInterests);
+    private List<PointOfInterest> pointOfInterests;
+    private TheUnits theUnits;
 
     // obiekty do rysowania
     // mapa
-    private Map map = new Map(theUnits, image.getWidth(), image.getHeight(), size, pointOfInterests);
+    private Map map;
 
     // panel GUI
     private MenuPanel menu = new MenuPanel(width, height, this, initialParameters);
 
     //ramki
-    private MyFrame myFrame = new MyFrame(map);
-    private MyFrame myFrame2 = new MyFrame(menu);
+    private MyFrame myFrame;
+    private MyFrame myFrame2;
 
     // separator dla wejść loga
     private String separator = " | ";
 
     public Simulation(String logPath, String imgPath){
-        System.out.println(imgPath);
         this.imgPath = imgPath;
-        System.out.println(imgPath);
         this.logPath = logPath;
-        this.logger = new Log(logPath);
-        this.image = new ImageReader(imgPath);
+        this.logger = new Log(this.logPath);
+        this.image = new ImageReader(this.imgPath);
+        pointOfInterests = image.getPoIsFromImage();
+        theUnits = new TheUnits(image.getWidth(), image.getHeight(), initialParameters, pointOfInterests);
+        map = new Map(theUnits, image.getWidth(), image.getHeight(), size, pointOfInterests);
+        myFrame = new MyFrame(map);
+        myFrame2 = new MyFrame(menu);
     }
 
     public void startNewSimulation() {
